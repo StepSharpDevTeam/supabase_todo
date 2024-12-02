@@ -43,11 +43,9 @@ function UpdateTodo({ id }: UpdateTodoProps) {
         fetchTodo()
     }, [id])
 
-    // Handle form submission
     const handleUpdateTodo = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validate form fields (optional)
         if (!title || !description || !assigned_to) {
             setFormError("Please fill in all fields.");
             return;
@@ -61,7 +59,7 @@ function UpdateTodo({ id }: UpdateTodoProps) {
         if (error) {
             setFormError("Error updating todo.");
         } else {
-            router.push("/");  // Redirect to the home page after successful update
+            router.push("/");  
         }
     }
 
@@ -157,7 +155,6 @@ function UpdateTodo({ id }: UpdateTodoProps) {
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <div className="flex justify-end">
                         <button
                             type="submit"

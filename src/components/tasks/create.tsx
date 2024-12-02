@@ -16,13 +16,11 @@ export default function CreateTodo(props: Props) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Validate form fields
         if (!title || !description || !priority || !status || !assigned_to) {
             setFormError("Please fill all fields.");
             return;
         }
 
-        // Insert the data into the todos table
         const { data, error } = await supabase
             .from('todos')
             .insert([{ title, description, priority, status, assigned_to }])
