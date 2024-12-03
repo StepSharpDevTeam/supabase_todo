@@ -1,38 +1,14 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Ignore all `.log` files
+*.log
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Ignore the `node_modules` folder
+node_modules/
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# Ignore all `.DS_Store` files (macOS system file)
 .DS_Store
-*.pem
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Ignore all files in the `build` directory
+build/
 
+.next/
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts

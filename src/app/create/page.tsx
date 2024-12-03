@@ -1,9 +1,7 @@
 import React from 'react'
 import CreateTodo from '@/components/tasks/create'
 
-type Props = {}
-
-export default function CreateBlog({}: Props) {
+export default function CreateBlog() {
   return (
     <div>
       <CreateTodo/>

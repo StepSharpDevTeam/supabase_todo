@@ -1,11 +1,20 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import supabase from '@/config/supabseClient';
-import { Edit, Trash } from 'lucide-react'; 
+import { Edit, Trash } from 'lucide-react';
 import Link from 'next/link';
 
+interface Todo {
+  id: number;
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  assigned_to: string;
+}
+
 export default function Tasks() {
-  const [todos, setTodos] = useState<any[] | null>(null);
+  const [todos, setTodos] = useState<Todo[] | null>(null);
   const [fetchError, setfetchError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -29,15 +38,15 @@ export default function Tasks() {
     fetchTodos();
 
     const todosChannel = supabase
-      .channel('todos_channel') 
+      .channel('todos_channel')
       .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
         table: 'todos',
       }, (payload) => {
         setTodos((prevTodos) => {
-          if (prevTodos === null) return [payload.new]; 
-          return [payload.new, ...prevTodos]; 
+          if (prevTodos === null) return [payload.new as Todo]; 
+          return [payload.new as Todo, ...prevTodos]; 
         });
       })
       .on('postgres_changes', {
@@ -46,9 +55,9 @@ export default function Tasks() {
         table: 'todos',
       }, (payload) => {
         setTodos((prevTodos) => {
-          if (prevTodos === null) return []; 
+          if (prevTodos === null) return [];
           return prevTodos.map(todo =>
-            todo.id === payload.new.id ? payload.new : todo
+            todo.id === (payload.new as Todo).id ? (payload.new as Todo) : todo 
           );
         });
       })
@@ -58,12 +67,12 @@ export default function Tasks() {
         table: 'todos',
       }, (payload) => {
         setTodos((prevTodos) => {
-          if (prevTodos === null) return []; 
-          return prevTodos.filter(todo => todo.id !== payload.old.id);
+          if (prevTodos === null) return [];
+          return prevTodos.filter(todo => todo.id !== (payload.old as Todo).id); 
         });
       })
       .subscribe();
-       // Set loading to false once todos are fetched
+
     setLoading(false);
 
     return () => {
@@ -74,7 +83,7 @@ export default function Tasks() {
     const { error } = await supabase
       .from('todos')
       .delete()
-      .eq('id', todoId); 
+      .eq('id', todoId);
 
     if (error) {
       setfetchError('Failed to delete todo');
@@ -140,7 +149,7 @@ export default function Tasks() {
                   </Link>
                   <button
                     className="text-red-500 hover:text-red-700"
-                    onClick={() => handleDelete(todo.id)} 
+                    onClick={() => handleDelete(todo.id)}
                   >
                     <Trash size={20} />
                   </button>

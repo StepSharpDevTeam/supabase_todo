@@ -8,8 +8,6 @@ type UpdateTodoProps = {
 }
 
 function UpdateTodo({ id }: UpdateTodoProps) {
-    console.log("id",id);
-    
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [priority, setPriority] = useState("Low");
@@ -37,11 +35,10 @@ function UpdateTodo({ id }: UpdateTodoProps) {
                 setPriority(data.priority)
                 setStatus(data.status)
                 setAssignee(data.assigned_to)
-                console.log(data);
             }
         }
         fetchTodo()
-    }, [id])
+    }, [id, router]);
 
     const handleUpdateTodo = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,11 +52,14 @@ function UpdateTodo({ id }: UpdateTodoProps) {
             .from('todos')
             .update({ title, description, priority, status, assigned_to })
             .eq('id', id);
+            console.log(data);
+            
+
 
         if (error) {
             setFormError("Error updating todo.");
         } else {
-            router.push("/");  
+            router.push("/");
         }
     }
 

@@ -3,9 +3,8 @@ import supabase from '@/config/supabseClient';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-type Props = {};
 
-export default function CreateTodo(props: Props) {
+export default function CreateTodo() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [priority, setPriority] = useState("Low");
@@ -137,6 +136,11 @@ export default function CreateTodo(props: Props) {
                             Create Todo
                         </button>
                     </div>
+                    {formError && (
+                        <div className="mt-4 text-red-600 text-sm">
+                            {formError}
+                        </div>
+                    )}
                 </form>
             </div>
         </div>
